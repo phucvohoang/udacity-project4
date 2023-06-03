@@ -45,6 +45,13 @@ provider:
 functions:
   Auth:
     handler: src/lambda/auth/auth0Authorizer.handler
+    iamRoleStatements:
+      - Effect: 'Allow'
+        Action:
+          - 'xray:PutTraceSegments'
+          - 'xray:PutTelemetryRecords'
+        Resource:
+          - '*'
 
   GetTodos:
     handler: src/lambda/http/getTodos.handler
@@ -59,6 +66,12 @@ functions:
             resultTtlInSeconds: 0
             identitySource: method.request.header.Authorization
     iamRoleStatements:
+      - Effect: 'Allow'
+        Action:
+          - 'xray:PutTraceSegments'
+          - 'xray:PutTelemetryRecords'
+        Resource:
+          - '*'
       - Effect: Allow
         Action:
           - s3:GetObject
@@ -88,6 +101,12 @@ functions:
             schemas:
               application/json: ${file(models/create-todo-model.json)}
     iamRoleStatements:
+      - Effect: 'Allow'
+        Action:
+          - 'xray:PutTraceSegments'
+          - 'xray:PutTelemetryRecords'
+        Resource:
+          - '*'
       - Effect: Allow
         Action:
           - dynamodb:PutItem
@@ -112,6 +131,12 @@ functions:
             schemas:
               application/json: ${file(models/update-todo-model.json)}
     iamRoleStatements:
+      - Effect: 'Allow'
+        Action:
+          - 'xray:PutTraceSegments'
+          - 'xray:PutTelemetryRecords'
+        Resource:
+          - '*'
       - Effect: Allow
         Action:
           - dynamodb:UpdateItem
@@ -133,6 +158,12 @@ functions:
             resultTtlInSeconds: 0
             identitySource: method.request.header.Authorization
     iamRoleStatements:
+      - Effect: 'Allow'
+        Action:
+          - 'xray:PutTraceSegments'
+          - 'xray:PutTelemetryRecords'
+        Resource:
+          - '*'
       - Effect: Allow
         Action:
           - dynamodb:DeleteItem
@@ -146,6 +177,12 @@ functions:
           method: post
           path: todos/{todoId}/attachment
     iamRoleStatements:
+      - Effect: 'Allow'
+        Action:
+          - 'xray:PutTraceSegments'
+          - 'xray:PutTelemetryRecords'
+        Resource:
+          - '*'
       - Effect: Allow
         Action:
           - dynamodb:UpdateItem
