@@ -12,12 +12,8 @@ import {
 
 export const handler = middy(
   async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
-    console.log('🚀 ~ file: generateUploadUrl.ts:12')
-    const todoId = uuidv4()
-    console.log(
-      '🚀 ~ file: generateUploadUrl.ts:13 ~ handler ~ todoId:',
-      todoId
-    )
+    const todoId = event.pathParameters.todoId
+    console.log('🚀 ~ file: generateUploadUrl.ts:16 ~ todoId:', todoId)
     const userId = getUserId(event)
     console.log(
       '🚀 ~ file: generateUploadUrl.ts:15 ~ handler ~ userId:',
@@ -30,7 +26,8 @@ export const handler = middy(
     )
 
     const signedUrl = await getGeneratedUploadURL(todoId)
-    await persistAttachmentUrl(todoId, userId, `${imageId}`)
+    // await persistAttachmentUrl(todoId, userId, `${imageId}`)
+    await persistAttachmentUrl(todoId, userId)
 
     return {
       statusCode: 201,

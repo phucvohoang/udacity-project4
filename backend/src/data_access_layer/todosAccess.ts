@@ -91,13 +91,15 @@ export class TodosAccess {
 
   async persistAttachmentUrl(
     todoId: string,
-    userId: string,
-    imageId: string
+    userId: string
+    // imageId: string
   ): Promise<void> {
     logger.info('Persisting an attachment url')
     console.log(
       '🚀 ~ file: todosAccess.ts:88 ~ TodosAccess ~ persistAttachmentUrl ~ attachmentURl:',
-      `https://${this.bucketName}.s3.amazonaws.com/${imageId}`
+      `https://${this.bucketName}.s3.amazonaws.com/${todoId}`,
+      todoId,
+      userId
     )
     await this.docClient
       .update({
@@ -119,6 +121,10 @@ export class TodosAccess {
     const s3 = new XAWS.S3({
       signatureVersion: 'v4'
     })
+    console.log(
+      '🚀 ~ file: todosAccess.ts:122 ~ TodosAccess ~ generateUploadUrl ~ todoId:',
+      todoId
+    )
 
     console.log(
       '🚀 ~ file: todosAccess.ts:104 ~ TodosAccess ~ generateUploadUrl ~ urlExpiration:',

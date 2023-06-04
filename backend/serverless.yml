@@ -1,6 +1,7 @@
 org: bushjdo
 app: serverless-todo-app
 service: serverless-todo-app
+frameworkVersion: '3'
 
 custom:
   webpack:
@@ -12,12 +13,10 @@ plugins:
   - serverless-iam-roles-per-function
   - serverless-plugin-tracing
   - serverless-reqvalidator-plugin
-  - serverless-aws-documentation
 
 provider:
   name: aws
-  runtime: nodejs12.x
-
+  runtime: nodejs14.x
   stage: ${opt:stage, 'dev'}
   region: ${opt:region, 'us-east-1'}
 
@@ -28,7 +27,7 @@ provider:
   environment:
     TODOS_TABLE: Todos-${self:provider.stage}
     TODOS_CREATED_AT_INDEX: CreatedAtIndex
-    ATTACHMENT_S3_BUCKET: phucvohoang-todo-images-${self:provider.stage}
+    ATTACHMENT_S3_BUCKET: phucvohoang-todo-project-4-${self:provider.stage}
     SIGNED_URL_EXPIRATION: 300
 
   logs:
@@ -56,6 +55,7 @@ functions:
 
   GetTodos:
     handler: src/lambda/http/getTodos.handler
+    # runtime: nodejs12.x
     events:
       - http:
           method: get
@@ -112,10 +112,6 @@ functions:
         Action:
           - dynamodb:PutItem
         Resource: 'arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_TABLE}'
-      - Effect: Allow
-        Action:
-          - s3:PutObject
-        Resource: 'arn:aws:s3:::${self:provider.environment.ATTACHMENT_S3_BUCKET}/*'
 
   UpdateTodo:
     handler: src/lambda/http/updateTodo.handler
