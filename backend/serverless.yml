@@ -33,15 +33,6 @@ provider:
   logs:
     restApi: true
 
-  iam:
-    role:
-      statements:
-        - Effect: Allow
-          Action:
-            - xray:PutTelemetryRecords
-            - xray:PutTraceSegments
-          Resource: '*'
-
 functions:
   Auth:
     handler: src/lambda/auth/auth0Authorizer.handler
